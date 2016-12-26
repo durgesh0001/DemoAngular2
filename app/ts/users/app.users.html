@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users list</title>
+</head>
+<body>
+<!--<div class="row">-->
+
+    <!--<h4>Angular 2 Pagination Example</h4> <br>-->
+    <!--<span class="text-danger"> The selected page<span class="badge">{{currentSelectedPage}}</span> </span> <br>-->
+    <!--<span class="text-danger"> Totoal items per page<span class="badge">{{currentItemsPerPage}}</span> </span> <br>-->
+
+    <!--<div class="form-group">-->
+        <!--{{result[currentPage-1]| json}}-->
+
+    <!--</div>-->
+    <!--<div class="form-group">-->
+        <!--<pagination [boundaryLinks]="true" [totalItems]="totalResults"-->
+                    <!--[(ngModel)]="currentPage" (pageChanged)="currentPageChanged($event)"-->
+                    <!--[maxSize]="maxSize"-->
+        <!--&gt;</pagination>-->
+        <!--<br>-->
+        <!--<button type="button" class="btn btn-info" (click)="setCurrentPage(2)">Set the current page <span class="badge">to: 2</span></button> <br>-->
+
+        <!--<br>-->
+    <!--</div>-->
+    <!--<div class="form-group" style="float: left">-->
+        <!--<h4>Angular 2 pagination</h4>-->
+        <!--<pager [totalItems]="totalResults" [(ngModel)]="currentPage" onPageChanged="currentPageChanged($event)"></pager>-->
+    <!--</div>-->
+
+<!--</div>-->
+
+<p>Users list</p>
+<!--<button (click)="ontestget()">click here</button>-->
+
+<table class="table table-hover">
+
+    <thead>
+    <tr>
+        <td>
+            Name
+        </td>
+        <td>
+            City
+        </td>
+        <td>
+            Country
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr *ngFor="#v of result" ><!--  -->
+        <td>
+            {{v.Name}}
+        </td>
+        <td>
+            {{v.City}}
+
+        </td>
+        <td>
+            {{v.Country}}
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>
