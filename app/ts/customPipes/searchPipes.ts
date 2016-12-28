@@ -12,7 +12,7 @@ export class SearchPipe
 {
     transform(value,[term])//terms is for custom search
     {
-        return value.filter((item)=>item.Name.startsWith(term));
+        return value.filter((item)=>item.username.startsWith(term));
 
     }
 

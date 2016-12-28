@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './users/app.users', './users/app.addUsers'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './users/app.users', './users/app.addUsers', './Login'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './users/app.users', './use
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, app_users_1, app_addUsers_1;
+    var core_1, router_1, app_users_1, app_addUsers_1, Login_1;
     var AppComponent;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(['angular2/core', 'angular2/router', './users/app.users', './use
             },
             function (app_addUsers_1_1) {
                 app_addUsers_1 = app_addUsers_1_1;
+            },
+            function (Login_1_1) {
+                Login_1 = Login_1_1;
             }],
         execute: function() {
             //Routing => ROUTER_DIRECTIVES,RouteConfig and <base href="/"> in index.html
@@ -34,12 +37,13 @@ System.register(['angular2/core', 'angular2/router', './users/app.users', './use
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        directives: [app_users_1.MyUsers, app_addUsers_1.AddUsers, router_1.ROUTER_DIRECTIVES],
+                        directives: [app_users_1.MyUsers, app_addUsers_1.AddUsers, Login_1.Login, router_1.ROUTER_DIRECTIVES],
                         templateUrl: 'app/ts/app.component.html',
                     }),
                     router_1.RouteConfig([
                         { path: '/users', name: 'Users', component: app_users_1.MyUsers },
-                        { path: '/add', name: 'Add', component: app_addUsers_1.AddUsers }
+                        { path: '/add', name: 'Add', component: app_addUsers_1.AddUsers },
+                        { path: '/login', name: 'Login', component: Login_1.Login, useAsDefault: true }
                     ]), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);

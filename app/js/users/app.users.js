@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../services/httpServices', 'angular2/common', '../pager.component', '../pagination.component', '../customPipes/searchPipes'], function(exports_1, context_1) {
+System.register(['angular2/core', '../services/httpServices', 'angular2/common', '../pager.component', '../pagination.component', '../customPipes/searchPipes', '../services/dbServices'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, httpServices_1, common_1, pager_component_1, pagination_component_1, searchPipes_1;
+    var core_1, httpServices_1, common_1, pager_component_1, pagination_component_1, searchPipes_1, dbServices_1;
     var MyUsers;
     return {
         setters:[
@@ -31,11 +31,16 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
             },
             function (searchPipes_1_1) {
                 searchPipes_1 = searchPipes_1_1;
+            },
+            function (dbServices_1_1) {
+                dbServices_1 = dbServices_1_1;
             }],
         execute: function() {
             MyUsers = (function () {
-                function MyUsers(_httpservice) {
+                function MyUsers(_httpservice, builder, _dbservicee) {
                     this._httpservice = _httpservice;
+                    this.builder = builder;
+                    this._dbservicee = _dbservicee;
                     this.result = [];
                     this.testdata = "";
                     this.searchbyName = "";
@@ -50,6 +55,19 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
                     this.totalResults = 60;
                     //the current page
                     this.currentPage = 2;
+                    this.submitAttempt = false;
+                    this.username = new common_1.Control('', common_1.Validators.required);
+                    this.firstname = new common_1.Control('', common_1.Validators.required);
+                    this.email = new common_1.Control('', common_1.Validators.required);
+                    // If we want to use more than one synchronous validators, we need to compose them
+                    this.password = new common_1.Control('', common_1.Validators.compose([common_1.Validators.required, common_1.Validators.minLength(8)]));
+                    this.registrationForm = builder.group({
+                        username: this.username,
+                        firstname: this.firstname,
+                        email: this.email,
+                        password: this.password
+                    });
+                    //edit module end
                     this.getUsersRecords();
                     console.log("return");
                     console.log(this.result);
@@ -64,10 +82,22 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
                     this.currentItemsPerPage = ' is : ' + event.itemsPerPage;
                 };
                 ;
+                MyUsers.prototype.editUser = function (user, isvalid) {
+                    this.submitAttempt = true;
+                    if (isvalid == true) {
+                        console.log(isvalid);
+                        alert("hello");
+                    }
+                };
                 MyUsers.prototype.getUsersRecords = function () {
+                    // this._dbservicee.list().then(allDoc => {
+                    //     this.result=allDoc.rows;
+                    //     console.log(this.result);
+                    //     return this.result;
+                    // });
                     var _this = this;
                     this._httpservice.getUser()
-                        .subscribe(function (data) { return _this.result = data.records; }, function (error) { return console.log(JSON.stringify(error)); }, function () { return console.log("finish"); });
+                        .subscribe(function (data) { return _this.result = data; }, function (error) { return console.log(JSON.stringify(error)); }, function () { return console.log("finish"); });
                     return 1;
                 };
                 MyUsers = __decorate([
@@ -76,9 +106,9 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
                         templateUrl: 'app/ts/users/app.users.html',
                         pipes: [searchPipes_1.SearchPipe],
                         directives: [pagination_component_1.Pagination, pager_component_1.Pager, common_1.FORM_DIRECTIVES, common_1.CORE_DIRECTIVES],
-                        providers: [httpServices_1.Httpservices],
+                        providers: [httpServices_1.Httpservices, dbServices_1.dbService],
                     }), 
-                    __metadata('design:paramtypes', [httpServices_1.Httpservices])
+                    __metadata('design:paramtypes', [httpServices_1.Httpservices, common_1.FormBuilder, dbServices_1.dbService])
                 ], MyUsers);
                 return MyUsers;
             }());

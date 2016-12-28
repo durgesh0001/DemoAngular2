@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1;
+    var core_1, http_1, http_2;
     var Httpservices;
     return {
         setters:[
@@ -19,6 +19,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+                http_2 = http_1_1;
             },
             function (_1) {}],
         execute: function() {
@@ -27,8 +28,18 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
                     this._http = _http;
                 }
                 Httpservices.prototype.getUser = function () {
-                    return this._http.get('http://www.w3schools.com/angular/customers.php')
+                    return this._http.get('http://localhost:4000/users')
                         .map(function (res) { return res.json(); });
+                };
+                Httpservices.prototype.addUser = function (data) {
+                    console.log(data);
+                    var json = JSON.stringify(data);
+                    var params = 'json=' + json;
+                    var headers = new http_2.Headers();
+                    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+                    return this._http.post('http://localhost:4000/users/add', params, {
+                        headers: headers,
+                    }).map(function (res) { return res.json(); });
                 };
                 Httpservices = __decorate([
                     core_1.Injectable(), 

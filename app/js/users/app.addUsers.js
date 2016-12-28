@@ -1,7 +1,7 @@
 /**
  * Created by root on 26/12/16.
  */
-System.register(['angular2/core', 'angular2/common'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/common', './app.users', '../services/httpServices', '../services/dbServices', "angular2/router"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,7 +13,7 @@ System.register(['angular2/core', 'angular2/common'], function(exports_1, contex
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1;
+    var core_1, common_1, app_users_1, httpServices_1, dbServices_1, router_1;
     var AddUsers;
     return {
         setters:[
@@ -22,11 +22,28 @@ System.register(['angular2/core', 'angular2/common'], function(exports_1, contex
             },
             function (common_1_1) {
                 common_1 = common_1_1;
+            },
+            function (app_users_1_1) {
+                app_users_1 = app_users_1_1;
+            },
+            function (httpServices_1_1) {
+                httpServices_1 = httpServices_1_1;
+            },
+            function (dbServices_1_1) {
+                dbServices_1 = dbServices_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }],
         execute: function() {
             AddUsers = (function () {
-                function AddUsers(builder) {
+                function AddUsers(builder, _dbservicee, _httpservice, router, location) {
                     this.builder = builder;
+                    this._dbservicee = _dbservicee;
+                    this._httpservice = _httpservice;
+                    this.router = router;
+                    this.location = location;
+                    this.result = [];
                     this.submitAttempt = false;
                     this.username = new common_1.Control('', common_1.Validators.required);
                     this.firstname = new common_1.Control('', common_1.Validators.required);
@@ -41,18 +58,24 @@ System.register(['angular2/core', 'angular2/common'], function(exports_1, contex
                     });
                 }
                 AddUsers.prototype.registerUser = function (user, isvalid) {
+                    var _this = this;
                     this.submitAttempt = true;
                     if (isvalid == true) {
-                        console.log(isvalid);
-                        alert("hello");
+                        this._httpservice.addUser(user)
+                            .subscribe(function (data) { return _this.result = data.records; }, function (error) { return console.log(JSON.stringify(error)); }, function () { return console.log("finish"); });
+                        alert("record saved");
+                        this.location.replaceState('/users');
+                        this.router.navigate(['Users']);
                     }
                 };
                 AddUsers = __decorate([
                     core_1.Component({
                         selector: 'add-users',
                         templateUrl: 'app/ts/users/app.addUsers.html',
+                        directives: [app_users_1.MyUsers],
+                        providers: [dbServices_1.dbService, httpServices_1.Httpservices],
                     }), 
-                    __metadata('design:paramtypes', [common_1.FormBuilder])
+                    __metadata('design:paramtypes', [common_1.FormBuilder, dbServices_1.dbService, httpServices_1.Httpservices, router_1.Router, router_1.Location])
                 ], AddUsers);
                 return AddUsers;
             }());

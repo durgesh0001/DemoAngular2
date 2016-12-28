@@ -3,19 +3,19 @@
  */
 import {Component} from 'angular2/core';
 import {Httpservices} from '../services/httpServices';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES,FormBuilder, Control, ControlGroup, Validators} from 'angular2/common';
 import {Pager} from '../pager.component';
 import {NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective} from 'ng2-table/ng2-table';
 import {Pagination} from '../pagination.component';
 import {SearchPipe} from '../customPipes/searchPipes';
-
+import {dbService} from '../services/dbServices';
 
 @Component({
     selector: 'my-users',
     templateUrl: 'app/ts/users/app.users.html',
     pipes:[SearchPipe],
     directives: [Pagination, Pager, FORM_DIRECTIVES, CORE_DIRECTIVES],
-    providers:[Httpservices],
+    providers:[Httpservices,dbService],
 })
 
 export class MyUsers {
@@ -34,8 +34,30 @@ export class MyUsers {
     private totalResults:number = 60;
     //the current page
     private currentPage:number = 2;
-    constructor(private _httpservice:Httpservices)
-    {
+
+    //edit module
+    registrationForm: ControlGroup;
+    username: Control;
+    firstname: Control;
+    email: Control;
+    password: Control;
+    submitAttempt: boolean = false;
+    constructor(private _httpservice:Httpservices,private builder: FormBuilder,private _dbservicee:dbService)
+    {    //edit module start
+        this.username = new Control('', Validators.required)
+        this.firstname = new Control('', Validators.required)
+        this.email = new Control('', Validators.required)
+
+        // If we want to use more than one synchronous validators, we need to compose them
+        this.password = new Control('', Validators.compose([Validators.required, Validators.minLength(8)]));
+
+        this.registrationForm = builder.group({
+            username: this.username,
+            firstname: this.firstname,
+            email: this.email,
+            password: this.password
+        });
+        //edit module end
     this.getUsersRecords();
         console.log("return");
         console.log(this.result);
@@ -52,6 +74,8 @@ export class MyUsers {
         );
 
 
+
+
     }
     private setCurrentPage(pageNo:number):void {
         this.currentPage = pageNo;
@@ -61,13 +85,28 @@ export class MyUsers {
         this.currentSelectedPage = ' is : ' + event.page;
         this.currentItemsPerPage = ' is : ' +  event.itemsPerPage;
     };
+    editUser(user,isvalid) {
+        this.submitAttempt = true;
+
+        if(isvalid == true)
+        {
+            console.log(isvalid)
+            alert("hello");
+        }
+
+    }
 
     getUsersRecords()
     {
+        // this._dbservicee.list().then(allDoc => {
+        //     this.result=allDoc.rows;
+        //     console.log(this.result);
+        //     return this.result;
+        // });
 
        this. _httpservice.getUser()
             .subscribe(
-                data =>this.result=data.records,
+                data =>this.result=data,
                 error => console.log(JSON.stringify(error)),
                 () => console.log("finish")
             )
