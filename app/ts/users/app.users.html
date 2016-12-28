@@ -35,6 +35,9 @@
 <p>Users list</p>
 <!--<button (click)="ontestget()">click here</button>-->
 
+<input type="text" [(ngModel)]="searchbyName" name="search">
+
+
 <table class="table table-hover">
 
     <thead>
@@ -52,7 +55,7 @@
     </thead>
     <tbody>
 
-    <tr *ngFor="#v of result" ><!--  -->
+    <tr *ngFor="#v of result | search:searchbyName "><!--  -->
         <td>
             {{v.Name}}
         </td>

@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../services/httpServices', 'angular2/common', '../pagination.component', '../pager.component'], function(exports_1, context_1) {
+System.register(['angular2/core', '../services/httpServices', 'angular2/common', '../pager.component', '../pagination.component', '../customPipes/searchPipes'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, httpServices_1, common_1, pagination_component_1, pager_component_1;
+    var core_1, httpServices_1, common_1, pager_component_1, pagination_component_1, searchPipes_1;
     var MyUsers;
     return {
         setters:[
@@ -23,11 +23,14 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
             function (common_1_1) {
                 common_1 = common_1_1;
             },
+            function (pager_component_1_1) {
+                pager_component_1 = pager_component_1_1;
+            },
             function (pagination_component_1_1) {
                 pagination_component_1 = pagination_component_1_1;
             },
-            function (pager_component_1_1) {
-                pager_component_1 = pager_component_1_1;
+            function (searchPipes_1_1) {
+                searchPipes_1 = searchPipes_1_1;
             }],
         execute: function() {
             MyUsers = (function () {
@@ -35,6 +38,7 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
                     this._httpservice = _httpservice;
                     this.result = [];
                     this.testdata = "";
+                    this.searchbyName = "";
                     this.usersData = [];
                     //print to the user the selected page
                     this.currentSelectedPage = "";
@@ -70,6 +74,7 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
                     core_1.Component({
                         selector: 'my-users',
                         templateUrl: 'app/ts/users/app.users.html',
+                        pipes: [searchPipes_1.SearchPipe],
                         directives: [pagination_component_1.Pagination, pager_component_1.Pager, common_1.FORM_DIRECTIVES, common_1.CORE_DIRECTIVES],
                         providers: [httpServices_1.Httpservices],
                     }), 

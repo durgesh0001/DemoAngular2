@@ -4,14 +4,16 @@
 import {Component} from 'angular2/core';
 import {Httpservices} from '../services/httpServices';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {Pagination} from '../pagination.component';
 import {Pager} from '../pager.component';
 import {NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective} from 'ng2-table/ng2-table';
+import {Pagination} from '../pagination.component';
+import {SearchPipe} from '../customPipes/searchPipes';
 
 
 @Component({
     selector: 'my-users',
     templateUrl: 'app/ts/users/app.users.html',
+    pipes:[SearchPipe],
     directives: [Pagination, Pager, FORM_DIRECTIVES, CORE_DIRECTIVES],
     providers:[Httpservices],
 })
@@ -19,6 +21,7 @@ import {NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgT
 export class MyUsers {
     private result:Array<any> = [];
     testdata = "";
+    searchbyName   = "";
     postdata:string;
     private usersData:Array<any> = [];
     //print to the user the selected page
