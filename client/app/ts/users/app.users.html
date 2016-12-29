@@ -24,12 +24,18 @@
                         <div class="form-group" [ngClass]="{ 'has-error' : !username.valid && submitAttempt }">
                             <label class="control-label" for="username">Username</label>
                             <em *ngIf="!username.valid && submitAttempt">Required</em>
-                            <input id="username" type="text" class="form-control" placeholder="Username" ngControl="username">
+                            <input id="username" [(ngModel)]="usernamemodelvalue" type="text" class="form-control" placeholder="Username" ngControl="username">
                         </div>
                         <div class="form-group" [ngClass]="{ 'has-error' : !firstname.valid && submitAttempt }">
                             <label class="control-label" for="firstname">First Name</label>
                             <em *ngIf="!firstname.valid && submitAttempt">Required</em>
-                            <input id="firstname" type="text" class="form-control" placeholder="First Name" ngControl="firstname">
+                            <input id="firstname" [(ngModel)]="firstnamemodelvalue" type="text" class="form-control" placeholder="First Name" ngControl="firstname">
+                        </div>
+                        <div class="form-group" [ngClass]="{ 'has-error' : !password.valid && submitAttempt }">
+                            <label class="control-label" for="password" hidden>Password</label>
+                            <em *ngIf="password.hasError('required') && submitAttempt">Required</em>
+                            <em *ngIf="password.hasError('minlength') && submitAttempt">Must be at least 8 characters</em>
+                            <input id="password" type="hidden" [(ngModel)]="userpasswordvalue" class="form-control" placeholder="Password" ngControl="password">
                         </div>
 
 
@@ -37,24 +43,17 @@
                         <div class="form-group" [ngClass]="{ 'has-error' : !email.valid && submitAttempt }">
                             <label class="control-label" for="email">Email</label>
                             <em *ngIf="!email.valid && submitAttempt">Required</em>
-                            <input id="email" type="text" class="form-control" placeholder="Email" ngControl="email">
-                        </div>
-
-                        <div class="form-group" [ngClass]="{ 'has-error' : !password.valid && submitAttempt }">
-                            <label class="control-label" for="password">Password</label>
-                            <em *ngIf="password.hasError('required') && submitAttempt">Required</em>
-                            <em *ngIf="password.hasError('minlength') && submitAttempt">Must be at least 8 characters</em>
-                            <input id="password" type="password" class="form-control" placeholder="Password" ngControl="password">
+                            <input id="email" type="text" [(ngModel)]="emailmodelvalue" class="form-control" placeholder="Email" ngControl="email">
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary">Edit</button>
                         </div>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
                 </div>
             </div>
 
@@ -100,7 +99,7 @@
                 {{v.firstname}}
             </td>
             <td>
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Edit</button>
+                <button type="button" class="btn btn-info" data-toggle="modal" (click)="openmodel(v)" data-target="#myModal">Edit</button>
             </td>
         </tr>
         </tbody>
