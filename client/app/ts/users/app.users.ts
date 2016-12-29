@@ -22,6 +22,7 @@ export class MyUsers {
     private result:Array<any> = [];
     testdata = "";
     searchbyName   = "";
+    id ="";
     postdata:string;
     private usersData:Array<any> = [];
     //print to the user the selected page
@@ -40,31 +41,32 @@ export class MyUsers {
     username: Control;
     firstname: Control;
     email: Control;
-    password: Control;
+    password:Control;
     submitAttempt: boolean = false;
+    usernamemodelvalue= "";
+    firstnamemodelvalue= "";
+    emailmodelvalue = "";
+    userpasswordvalue = "";
     constructor(private _httpservice:Httpservices,private builder: FormBuilder,private _dbservicee:dbService)
     {    //edit module start
         this.username = new Control('', Validators.required)
         this.firstname = new Control('', Validators.required)
         this.email = new Control('', Validators.required)
+        this.password = new Control('', Validators.compose([Validators.required, Validators.minLength(8)]));
 
         // If we want to use more than one synchronous validators, we need to compose them
-        this.password = new Control('', Validators.compose([Validators.required, Validators.minLength(8)]));
 
         this.registrationForm = builder.group({
             username: this.username,
             firstname: this.firstname,
             email: this.email,
-            password: this.password
+            password:this.password,
         });
         //edit module end
     this.getUsersRecords();
         console.log("return");
         console.log(this.result);
-
-
-
-        this.usersData.push(
+    this.usersData.push(
             {image:'http://www.angulartypescript.com/wp-content/uploads/2016/03/car1.jpg',text:'BMW 1'},
             {image:'http://www.angulartypescript.com/wp-content/uploads/2016/03/car2.jpg',text:'BMW 2'},
             {image:'http://www.angulartypescript.com/wp-content/uploads/2016/03/car3.jpg',text:'BMW 3'},
@@ -72,9 +74,6 @@ export class MyUsers {
             {image:'http://www.angulartypescript.com/wp-content/uploads/2016/03/car5.jpg',text:'BMW 5'},
             {image:'http://www.angulartypescript.com/wp-content/uploads/2016/03/car6.jpg',text:'BMW 6'}
         );
-
-
-
 
     }
     private setCurrentPage(pageNo:number):void {
@@ -90,10 +89,25 @@ export class MyUsers {
 
         if(isvalid == true)
         {
-            console.log(isvalid)
-            alert("hello");
-        }
+            user._id =this.id;
+            this._httpservice.updateUser(user)
+                .subscribe(
+                    data =>this.result=data.records,
+                    error => console.log(JSON.stringify(error)),
+                    () => console.log("finish")
+                )
+            alert("record saved");
 
+        }
+    }
+    openmodel(data)
+    {
+        //binding data to model value
+        this.usernamemodelvalue=  data.username;;
+        this.firstnamemodelvalue= data.firstname;
+        this.emailmodelvalue =    data.email;
+        this.userpasswordvalue =   data.password;
+        this.id    = data._id;
     }
 
     getUsersRecords()

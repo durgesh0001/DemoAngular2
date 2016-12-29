@@ -20,6 +20,7 @@ export class Httpservices
         return this._http.get('/users')
             .map(res=>res.json())
     }
+
     addUser(data)
     {
         console.log(data);
@@ -37,6 +38,25 @@ export class Httpservices
 
 
     }
+
+    updateUser(data)
+    {
+        console.log(data);
+        var json=JSON.stringify(data);
+        var params='json='+json;
+        var headers=new Headers();
+        headers.append('Content-Type','application/x-www-form-urlencoded');
+
+
+        return this._http.post('/users/update',
+            params,{
+                headers:headers,
+            }
+        ).map(res=>res.json())
+
+
+    }
+
 
 
 }

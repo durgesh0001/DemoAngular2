@@ -1,6 +1,8 @@
+
 var express = require('express');
 var router = express.Router();
 var User = require('./user.model.js');
+var _ = require('lodash');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -22,5 +24,23 @@ console.log(user)
         res.json(201,employees);
     });
 });
+router.post('/update', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var user=JSON.parse(req.body.json);
+
+    User.findById(user._id, function (err, Users) {
+        if (err) { return handleError(res, err); }
+        if(!Users) { return res.send(404); }
+        var updated = _.merge(Users, user);
+        updated.save(function (err) {
+            if (err) { return handleError(res, err); }
+            return res.json(200, Users);
+        });
+    });
+});
+function handleError(res, err) {
+    return res.send(500, err);
+}
 
 module.exports = router;

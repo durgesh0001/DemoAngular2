@@ -44,6 +44,7 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
                     this.result = [];
                     this.testdata = "";
                     this.searchbyName = "";
+                    this.id = "";
                     this.usersData = [];
                     //print to the user the selected page
                     this.currentSelectedPage = "";
@@ -56,16 +57,20 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
                     //the current page
                     this.currentPage = 2;
                     this.submitAttempt = false;
+                    this.usernamemodelvalue = "";
+                    this.firstnamemodelvalue = "";
+                    this.emailmodelvalue = "";
+                    this.userpasswordvalue = "";
                     this.username = new common_1.Control('', common_1.Validators.required);
                     this.firstname = new common_1.Control('', common_1.Validators.required);
                     this.email = new common_1.Control('', common_1.Validators.required);
-                    // If we want to use more than one synchronous validators, we need to compose them
                     this.password = new common_1.Control('', common_1.Validators.compose([common_1.Validators.required, common_1.Validators.minLength(8)]));
+                    // If we want to use more than one synchronous validators, we need to compose them
                     this.registrationForm = builder.group({
                         username: this.username,
                         firstname: this.firstname,
                         email: this.email,
-                        password: this.password
+                        password: this.password,
                     });
                     //edit module end
                     this.getUsersRecords();
@@ -83,11 +88,23 @@ System.register(['angular2/core', '../services/httpServices', 'angular2/common',
                 };
                 ;
                 MyUsers.prototype.editUser = function (user, isvalid) {
+                    var _this = this;
                     this.submitAttempt = true;
                     if (isvalid == true) {
-                        console.log(isvalid);
-                        alert("hello");
+                        user._id = this.id;
+                        this._httpservice.updateUser(user)
+                            .subscribe(function (data) { return _this.result = data.records; }, function (error) { return console.log(JSON.stringify(error)); }, function () { return console.log("finish"); });
+                        alert("record saved");
                     }
+                };
+                MyUsers.prototype.openmodel = function (data) {
+                    //binding data to model value
+                    this.usernamemodelvalue = data.username;
+                    ;
+                    this.firstnamemodelvalue = data.firstname;
+                    this.emailmodelvalue = data.email;
+                    this.userpasswordvalue = data.password;
+                    this.id = data._id;
                 };
                 MyUsers.prototype.getUsersRecords = function () {
                     // this._dbservicee.list().then(allDoc => {
