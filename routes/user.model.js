@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-mongoose.connect('mongodb://localhost/tmcore');
+mongoose.connect('mongodb://durgesh:123456@ds047504.mlab.com:47504/angular2demo');
 
 var UserSchema = new Schema({
     firstname: String,
